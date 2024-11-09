@@ -11,3 +11,5 @@ Backend
 =======
 
 do "cd server"
+do "npm i"
+Then run "nodemon server.js"
