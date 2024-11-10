@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const { OpenAI } = require('openai');
+const userRoutes = require('./routes/userRoute');
 
 dotenv.config();
 
@@ -34,6 +35,9 @@ app.get('/', (req, res) => {
 app.get('/api/test', (req, res) => {
   res.json({ message: 'This is a test response from the server.' });
 });
+
+app.use('/api/user', userRoutes);
+
 
 // Define the port to use (should match the previous `port` definition)
 const PORT = process.env.PORT || 4000;
