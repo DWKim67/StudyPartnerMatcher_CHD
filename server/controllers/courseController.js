@@ -147,6 +147,11 @@ const removeStudentFromCourse = async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
+    // Check if the student is enrolled in the course
+    if (!course.students.includes(userID)) {
+      return res.status(400).json({ error: 'Student is not enrolled in this course' });
+    }
+
     // Remove user from the course's students list
     course.students = course.students.filter(studentId => studentId.toString() !== userID);
     await course.save();
@@ -161,6 +166,7 @@ const removeStudentFromCourse = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 module.exports = {
   createCourse,

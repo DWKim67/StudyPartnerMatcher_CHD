@@ -64,7 +64,7 @@ const loginUser = async (req, res) => {
 // Get all users
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find(); // Fetch all students
+    const users = await User.find().populate("courses"); // Fetch all students
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -91,7 +91,7 @@ const removeUser = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const deletedUser = await User.findByIdAndDelete(id);
+    const deletedUser = await User.findByIdAndDelete(id).populate("courses");
     if (!deletedUser) {
       return res.status(404).json({ error: 'User not found' });
     }
