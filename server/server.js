@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const { OpenAI } = require('openai');
 const userRoutes = require('./routes/userRoute');
 const fileUpload = require('express-fileupload');
-const courseRoutes = require('./routes/courseRoutes');
+const courseRoutes = require('./routes/courseRoute');
 const User = require('./models/userModel');
 
 
@@ -47,7 +47,7 @@ app.get('/api/test', (req, res) => {
 app.use('/api/user', userRoutes);
 
 // Use the course routes
-app.use('/api/courses', courseRoutes);
+app.use('/api/course', courseRoutes);
 
 // Initialize OpenAI API client
 const openai = new OpenAI({
@@ -72,8 +72,10 @@ app.post('/api/generate-text', async (req, res) => {
     }
 
     // Create the prompts from the profiles
-    const prompt1 = "I prefer quiet environments and study groups. I like someone keeping me in check and hate it if people are too talkative"; // Example: "User 1 prefers quiet environments and study groups."
-    const prompt2 = "I like active group discussions and want someone who can talk with me and figure out things together."; // Example: "User 2 likes active group discussions."
+    const prompt1 = user1.studyHabits; // Example: "User 1 prefers quiet environments and study groups."
+    const prompt2 = user2.studyHabits; // Example: "User 2 likes active group discussions."
+
+
 
     // Construct the compatibility assessment prompt
     const prompt = `Assess the compatibilities of the following two users and give me a compatibility score out of 100. RETURN JUST THE SCORE INTEGER OUT OF 100.

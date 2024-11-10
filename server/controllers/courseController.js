@@ -100,11 +100,11 @@ const updateCourse = async (req, res) => {
 
 // Add student to a course
 const addStudentToCourse = async (req, res) => {
-  const { courseId, userId } = req.body;
+  const { courseID, userID } = req.body;
 
   try {
-    const course = await Course.findById(courseId);
-    const user = await User.findById(userId);
+    const course = await Course.findById(courseID);
+    const user = await User.findById(userID);
 
     if (!course) {
       return res.status(404).json({ error: 'Course not found' });
@@ -114,12 +114,12 @@ const addStudentToCourse = async (req, res) => {
     }
 
     // Add user to the course's students list
-    if (!course.students.includes(userId)) {
-      course.students.push(userId);
+    if (!course.students.includes(userID)) {
+      course.students.push(userID);
       await course.save();
 
       // Add the course to the user's list of courses
-      user.courses.push(courseId);
+      user.courses.push(courseID);
       await user.save();
 
       res.status(200).json({ message: 'Student added to course successfully' });
@@ -134,11 +134,11 @@ const addStudentToCourse = async (req, res) => {
 
 // Remove student from a course
 const removeStudentFromCourse = async (req, res) => {
-  const { courseId, userId } = req.body;
+  const { courseID, userID } = req.body;
 
   try {
-    const course = await Course.findById(courseId);
-    const user = await User.findById(userId);
+    const course = await Course.findById(courseID);
+    const user = await User.findById(userID);
 
     if (!course) {
       return res.status(404).json({ error: 'Course not found' });
@@ -148,11 +148,11 @@ const removeStudentFromCourse = async (req, res) => {
     }
 
     // Remove user from the course's students list
-    course.students = course.students.filter(studentId => studentId.toString() !== userId);
+    course.students = course.students.filter(studentId => studentId.toString() !== userID);
     await course.save();
 
     // Remove the course from the user's list of courses
-    user.courses = user.courses.filter(courseId => courseId.toString() !== courseId);
+    user.courses = user.courses.filter(courseID => courseID.toString() !== courseID);
     await user.save();
 
     res.status(200).json({ message: 'Student removed from course successfully' });
