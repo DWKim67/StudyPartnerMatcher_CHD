@@ -64,7 +64,7 @@ const loginUser = async (req, res) => {
 // Get all users
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({}); // Fetch all students
+    const users = await User.find(); // Fetch all students
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });

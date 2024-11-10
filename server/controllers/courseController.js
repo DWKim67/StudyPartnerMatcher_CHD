@@ -152,7 +152,7 @@ const removeStudentFromCourse = async (req, res) => {
     await course.save();
 
     // Remove the course from the user's list of courses
-    user.courses = user.courses.filter(courseID => courseID.toString() !== courseID);
+    user.courses = user.courses.filter(courseId => courseId.toString() !== courseID);
     await user.save();
 
     res.status(200).json({ message: 'Student removed from course successfully' });

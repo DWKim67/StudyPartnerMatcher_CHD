@@ -31,8 +31,6 @@ mongoose.connect(process.env.MONGO_URI)
     console.error('Error connecting to MongoDB:', err);
   });
 
-
-
 // Test route to verify server is working
 app.get('/', (req, res) => {
   res.send('Server is up and running!');
