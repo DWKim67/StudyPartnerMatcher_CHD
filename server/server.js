@@ -5,6 +5,9 @@ const dotenv = require('dotenv');
 const { OpenAI } = require('openai');
 const userRoutes = require('./routes/userRoute');
 const fileUpload = require('express-fileupload');
+const courseRoutes = require('./routes/courseRoutes');
+const User = require('./models/userModel');
+
 
 dotenv.config();
 
@@ -28,6 +31,24 @@ mongoose.connect(process.env.MONGO_URI)
     console.error('Error connecting to MongoDB:', err);
   });
 
+
+
+// Test route to verify server is working
+app.get('/', (req, res) => {
+  res.send('Server is up and running!');
+});
+
+// Example of a simple API route
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'This is a test response from the server.' });
+});
+
+// Use the user routes
+app.use('/api/user', userRoutes);
+
+// Use the course routes
+app.use('/api/courses', courseRoutes);
+
 // Initialize OpenAI API client
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // Ensure you set the OpenAI key in your .env file
@@ -35,20 +56,20 @@ const openai = new OpenAI({
 
 // OpenAI text generation endpoint for compatibility scoring
 app.post('/api/generate-text', async (req, res) => {
-  // const { userId1, userId2 } = req.body; // Get the user IDs from the request body
+  const { user1_id, user2_id } = req.body; // Get the user IDs from the request body
 
-  // if (!userId1 || !userId2) {
-  //   return res.status(400).json({ message: 'Both user IDs are required.' });
-  // }
+  if (!user1_id || !user2_id) {
+    return res.status(400).json({ message: 'Both user IDs are required.' });
+  }
 
   try {
     // Retrieve the profiles of both users from the database
-    // const user1 = await User.findById(userId1);
-    // const user2 = await User.findById(userId2);
+    const user1 = await User.findById(user1_id);
+    const user2 = await User.findById(user2_id);
 
-    // if (!user1 || !user2) {
-    //   return res.status(404).json({ message: 'One or both users not found.' });
-    //}
+    if (!user1 || !user2) {
+      return res.status(404).json({ message: 'One or both users not found.' });
+    }
 
     // Create the prompts from the profiles
     const prompt1 = "I prefer quiet environments and study groups. I like someone keeping me in check and hate it if people are too talkative"; // Example: "User 1 prefers quiet environments and study groups."
@@ -79,18 +100,6 @@ app.post('/api/generate-text', async (req, res) => {
 //   profileText: String, // Profile text field for user preferences
 //   // Additional fields can be added as necessary
 // });
-
-// Test route to verify server is working
-app.get('/', (req, res) => {
-  res.send('Server is up and running!');
-});
-
-// Example of a simple API route
-app.get('/api/test', (req, res) => {
-  res.json({ message: 'This is a test response from the server.' });
-});
-
-app.use('/api/user', userRoutes);
 
 // Define the port to use (should match the previous `port` definition)
 const PORT = process.env.PORT || 4000;
