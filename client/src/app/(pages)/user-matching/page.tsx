@@ -1,87 +1,138 @@
 "use client"; // Add this line to make the component a Client Component
 
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+
+// Define types for available times
+interface AvailableTimes {
+  [key: string]: string; // Key is the day, value is the time slot (e.g., "2-4 PM")
+}
 
 const UserMatchingPage = () => {
+  // Use Next.js router to navigate
+  const router = useRouter();
+  const navigateTo = (page: string) => {
+    router.push(`http://localhost:3000/${page}`);
+  };
   // Dummy data for the profile
   const user = {
     profilePic: "https://via.placeholder.com/150",
     name: "John Doe",
     compatibilityRate: 92,
     major: "Computer Science",
-    availableTimes: "Mon, Wed, Fri - 2-4 PM",
     description:
       "Passionate about exploring complex algorithms and loves quiet study sessions. Looking for a study partner who enjoys deep dives into data structures and collaborates well on hands-on projects.",
+    availableTimes: {
+      Monday: "2-4 PM",
+      Wednesday: "2-4 PM",
+      Friday: "2-4 PM",
+    },
   };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100 p-8">
-      {/* Left Sidebar */}
-      <div className="hidden md:flex flex-col items-center w-1/5 bg-blue-200 rounded-l-2xl p-6 shadow-lg">
-        <h2 className="text-lg font-bold text-gray-700">Options</h2>
-        <ul className="mt-4 space-y-2">
-          <li className="text-blue-700 font-medium cursor-pointer hover:text-blue-500">
-            Home
-          </li>
-          <li className="text-blue-700 font-medium cursor-pointer hover:text-blue-500">
-            Search Profiles
-          </li>
-          <li className="text-blue-700 font-medium cursor-pointer hover:text-blue-500">
-            Messages
-          </li>
-          <li className="text-blue-700 font-medium cursor-pointer hover:text-blue-500">
-            Settings
-          </li>
-        </ul>
-      </div>
+  // Dummy data for the second user to compare times
+  const user2 = {
+    profilePic: "https://via.placeholder.com/150",
+    name: "Jane Smith",
+    compatibilityRate: 85,
+    major: "Data Science",
+    description:
+      "An advocate for collaborative learning and enjoys brainstorming solutions with peers. Looking for a partner who is open to group discussions and solving problems together.",
+    availableTimes: {
+      Monday: "1-3 PM",
+      Wednesday: "2-4 PM",
+      Friday: "3-5 PM",
+    },
+  };
 
-      {/* Profile Card */}
-      <div className="flex-grow max-w-3xl bg-white rounded-2xl shadow-2xl p-8 flex flex-col items-center">
+  // Function to find overlapping times between two users
+  const getTimeOverlap = (times1: AvailableTimes, times2: AvailableTimes): string[] => {
+    const overlap: string[] = [];
+    Object.keys(times1).forEach((day) => {
+      if (times1[day] === times2[day]) {
+        overlap.push(`${day}: ${times1[day]}`);
+      }
+    });
+    return overlap.length > 0 ? overlap : ["No overlapping times"];
+  };
+
+  const timeOverlap = getTimeOverlap(user.availableTimes, user2.availableTimes);
+
+  // State to hold the chat message
+  const [message, setMessage] = useState("");
+
+  // Handle message input change
+  const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMessage(e.target.value);
+  };
+
+  // Handle Connect/Plan click
+  const handleConnectPlan = () => {
+    alert(`Sent: ${message} - to ${user2.name}`);
+    setMessage(""); // Clear message after sending
+  };
+
+  // Calculate compatibility color
+  const compatibilityColor =
+    user.compatibilityRate >= 80 ? "text-green-600" : user.compatibilityRate >= 50 ? "text-yellow-600" : "text-red-600";
+
+  return (
+    <div className="min-h-screen bg-gradient-to-r from-blue-50 to-purple-100 p-8 flex justify-center">
+      <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-8 flex flex-col items-center space-y-8">
+        {/* Back Button */}
+        <button
+          onClick={() => router.back()}
+          className="text-blue-600 hover:text-blue-800 font-semibold text-lg mb-4 self-start"
+        >
+          &larr; Back
+        </button>
+
         {/* Profile Picture */}
         <img
           src={user.profilePic}
           alt={`${user.name}'s profile`}
-          className="w-32 h-32 rounded-full shadow-lg mb-6 border-4 border-blue-500"
+          className="w-36 h-36 rounded-full border-4 border-gradient-to-r from-pink-500 to-indigo-500 shadow-lg mb-6"
         />
-
-        {/* User Information */}
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">{user.name}</h1>
+        {/* User Details */}
+        <h1 className="text-4xl font-bold text-gray-800 mb-2">{user.name}</h1>
         <p className="text-lg text-gray-600 mb-1 font-medium">Major: {user.major}</p>
-        <p className="text-2xl font-semibold text-blue-600 mb-4">
-          {user.compatibilityRate}% Compatibility
+
+        {/* Compatibility Rate */}
+        <p className={`text-2xl font-semibold mb-4 ${compatibilityColor}`}>
+          Compatibility Rate: {user.compatibilityRate}%
         </p>
 
-        {/* Description */}
-        <p className="text-center text-gray-700 px-8 mb-4">{user.description}</p>
+        {/* Profile Description */}
+        <p className="text-center text-gray-700 px-8 mb-6 italic">{user.description}</p>
 
-        {/* Available Times Badge */}
-        <div className="bg-blue-100 text-blue-700 font-medium py-2 px-6 rounded-full shadow-sm text-sm mb-6">
-          Available Times: {user.availableTimes}
+        {/* Available Time Overlaps */}
+        <h3 className="text-xl font-semibold text-gray-800 mb-4">Available Time Overlaps</h3>
+        <ul className="space-y-2">
+          {timeOverlap.map((time, index) => (
+            <li key={index} className="text-lg text-gray-700">
+              <span className="font-bold text-blue-600">{time}</span>
+            </li>
+          ))}
+        </ul>
+
+        {/* Chat Input */}
+        <div className="mt-8 w-full bg-gray-50 p-4 rounded-lg shadow-md">
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">Send a Message</h3>
+          <input
+            type="text"
+            value={message}
+            onChange={handleMessageChange}
+            placeholder="Type your message here"
+            className="w-full p-3 bg-white border-2 border-gray-300 rounded-lg shadow-md focus:outline-none focus:border-indigo-500 mb-4"
+          />
         </div>
 
         {/* Connect/Plan Button */}
-        <button className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-200">
+        <button
+          onClick={() => navigateTo("homepage")}
+          className="mt-6 px-6 py-3 bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-semibold rounded-lg shadow-lg hover:scale-105 transition duration-300 ease-in-out"
+        >
           Connect/Plan
         </button>
-      </div>
-
-      {/* Right Sidebar */}
-      <div className="hidden md:flex flex-col items-center w-1/5 bg-blue-200 rounded-r-2xl p-6 shadow-lg">
-        <h2 className="text-lg font-bold text-gray-700">Quick Links</h2>
-        <ul className="mt-4 space-y-2">
-          <li className="text-blue-700 font-medium cursor-pointer hover:text-blue-500">
-            Notifications
-          </li>
-          <li className="text-blue-700 font-medium cursor-pointer hover:text-blue-500">
-            Study Groups
-          </li>
-          <li className="text-blue-700 font-medium cursor-pointer hover:text-blue-500">
-            Resources
-          </li>
-          <li className="text-blue-700 font-medium cursor-pointer hover:text-blue-500">
-            Help Center
-          </li>
-        </ul>
       </div>
     </div>
   );

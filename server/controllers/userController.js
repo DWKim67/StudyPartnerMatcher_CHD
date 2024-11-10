@@ -61,15 +61,16 @@ const loginUser = async (req, res) => {
   }
 }
 
-// Get all users
+// Get all users, returning only their _id fields
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({}); // Fetch all students
+    const users = await User.find(); // Fetch only the _id for each user
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 // Get a single user by ID
 const getUserById = async (req, res) => {
@@ -91,7 +92,7 @@ const removeUser = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const deletedUser = await User.findByIdAndDelete(id);
+    const deletedUser = await User.findByIdAndDelete(id).populate("courses");
     if (!deletedUser) {
       return res.status(404).json({ error: 'User not found' });
     }

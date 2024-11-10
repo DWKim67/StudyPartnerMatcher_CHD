@@ -16,7 +16,7 @@ const MainPage = () => {
 
   // Navigate to a different page (Leaderboard, Notifications, etc.)
   const navigateTo = (page: string) => {
-    router.push(`/${page}`);
+    router.push(`http://localhost:3000/${page}`);
   };
 
   return (
@@ -43,7 +43,7 @@ const MainPage = () => {
         {/* Main Buttons */}
         <div className="w-full flex justify-around mb-8">
           <button
-            onClick={() => navigateTo("find-study-buddy")}
+            onClick={() => navigateTo("studentinfo")}
             className="px-6 py-3 bg-gradient-to-r from-green-500 to-teal-500 text-white font-semibold rounded-lg shadow-lg hover:scale-105 transition duration-300 ease-in-out"
           >
             Find Study Buddy
