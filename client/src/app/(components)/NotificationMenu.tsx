@@ -27,16 +27,16 @@ const NotificationMenu = ({
           </button>
         </div>
         <div className="mt-4 bg-white rounded-md">
-          <p className="mx-2 text-lg">John is requesting to connect</p>
+          <p className="mx-2 text-lg">Alice is requesting to connect</p>
         </div>
         <div>
           <ul className="mx-2 list-disc list-inside">
-            <li>EECS3101</li>
-            <li>Wed 4:20 PM</li>
+            <li>EECS 3101</li>
+            <li>Wed 2-4 PM</li>
           </ul>
         </div>
         <div className="bg-white rounded-md">
-          <p className="mx-2 text-lg">Meet at Scott Libr</p>
+          <p className="mx-2 text-lg">meet at scott lib</p>
         </div>
         <div className="flex mt-4 space-x-2 mb-6">
           <button
