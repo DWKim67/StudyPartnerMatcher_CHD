@@ -8,7 +8,12 @@ const {
   updateUser
 } = require('../controllers/userController');
 
+// const requireAuth = require('../middleware/requireAuth.js') 
+
 const router = express.Router();
+
+// Require auth for all user actions
+// router.use(requireAuth);
 
 // Define routes for user operations
 
