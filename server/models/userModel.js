@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
 const { unique } = require('next/dist/build/utils');
+const OpenAI = require('openai');
+
 
 // Import the Course model
 const Course = require('./courseModel');
