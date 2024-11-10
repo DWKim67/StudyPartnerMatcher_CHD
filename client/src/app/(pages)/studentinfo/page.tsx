@@ -1,7 +1,5 @@
 "use client";
-
-"use client";
-
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { Calendar } from "@/components/ui/calendar"; // Assuming the Calendar component is correctly imported
 
@@ -11,6 +9,12 @@ type TimeBlock = {
 };
 
 const StudentInfoPage = () => {
+
+  const router = useRouter();
+  const navigateTo = (page: string) => {
+    router.push(`http://localhost:3000/${page}`);
+  };
+
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [dates, setDates] = useState<TimeBlock[]>([]);
   const [courses, setCourses] = useState<string | null>(null);
@@ -172,7 +176,7 @@ const StudentInfoPage = () => {
 
         {/* Submit Button */}
         <button
-          onClick={handleSubmit}
+          onClick={() => navigateTo("matching-students")}
           className="w-full bg-green-500 text-white py-3 rounded-md text-xl"
         >
           Submit

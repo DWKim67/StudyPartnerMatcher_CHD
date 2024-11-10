@@ -1,10 +1,18 @@
 "use client"; // Add this line to make the component a Client Component
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { FaBell } from "react-icons/fa";
+import NotificationMenu from "@/app/(components)/NotificationMenu";
 
 const MainPage = () => {
   const router = useRouter();
+
+  const [hideNotif, setHideNotif] = useState<boolean>(true);
+
+  const handleNotifOnClick = () => {
+    setHideNotif(!hideNotif);
+  };
 
   // Dummy user data for the logged-in user
   const user = {
@@ -16,12 +24,12 @@ const MainPage = () => {
 
   // Navigate to a different page (Leaderboard, Notifications, etc.)
   const navigateTo = (page: string) => {
-    router.push(`/${page}`);
+    router.push(`http://localhost:3000/${page}`);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-100 to-purple-200 p-8 flex justify-center">
-      <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-8 flex flex-col items-center space-y-8">
+      <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-8 relative flex flex-col items-center space-y-8">
         {/* User Profile */}
         <div className="flex items-center space-x-4 mb-8">
           <img
@@ -43,7 +51,7 @@ const MainPage = () => {
         {/* Main Buttons */}
         <div className="w-full flex justify-around mb-8">
           <button
-            onClick={() => navigateTo("find-study-buddy")}
+            onClick={() => navigateTo("studentinfo")}
             className="px-6 py-3 bg-gradient-to-r from-green-500 to-teal-500 text-white font-semibold rounded-lg shadow-lg hover:scale-105 transition duration-300 ease-in-out"
           >
             Find Study Buddy
@@ -54,12 +62,18 @@ const MainPage = () => {
           >
             Leaderboard
           </button>
+        </div>
+        {/* Notification Button */}
+        <div className="absolute right-0 top-0 mr-4">
           <button
-            onClick={() => navigateTo("notifications")}
-            className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold rounded-lg shadow-lg hover:scale-105 transition duration-300 ease-in-out"
+            onClick={handleNotifOnClick}
+            className="w-20 h-16 rounded-md bg-slate-400 flex justify-center"
           >
-            Notifications ({user.notifications})
+            <FaBell className="w-16 h-16 py-2 px-4 text-white" />
           </button>
+        </div>
+        <div className="absolute right-0 top-20 mr-4">
+          <NotificationMenu hideNotif={hideNotif} setHideNotif={setHideNotif} />
         </div>
 
         {/* Footer / App Info */}
