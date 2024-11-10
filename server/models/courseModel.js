@@ -18,12 +18,6 @@ const courseSchema = new Schema({
   description: {
     type: String
   },
-  startDate: {
-    type: Date
-  },
-  endDate: {
-    type: Date
-  },
   students: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
