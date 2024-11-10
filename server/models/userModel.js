@@ -65,9 +65,9 @@ const userSchema = new Schema({
 // Static signup method
 userSchema.statics.signup = async function (userName, password, profileImage) {
   // Debugging logs
-  console.log("Received userName:", userName);
-  console.log("Received password:", password);
-  console.log("Received profileImage:", profileImage);
+  // console.log("Received userName:", userName);
+  // console.log("Received password:", password);
+  // console.log("Received profileImage:", profileImage);
 
   // Validation
   if (!userName || !password || !profileImage) {
@@ -79,7 +79,7 @@ userSchema.statics.signup = async function (userName, password, profileImage) {
   // }
 
   const existsUserName = await this.findOne({ userName });
-
+  // console.log("Exist user name", existsUserName);
 
   if (existsUserName) {
     throw new Error("userName already in use");
@@ -88,8 +88,8 @@ userSchema.statics.signup = async function (userName, password, profileImage) {
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 
-  const user = await this.create({ userName, password: hash });
-
+  const user = await this.create({ userName, password: hash, profileImage });
+  // console.log("After create the hash")
   return user;
 };
 
