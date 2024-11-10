@@ -5,18 +5,11 @@ const User = require('./userModel');
 
 // Course Schema
 const courseSchema = new Schema({
-  courseName: {
-    type: String,
-    required: true
-  },
   courseCode: {
     type: String,
     required: true,
     unique: true,
     trim: true,
-  },
-  description: {
-    type: String
   },
   students: [{
     type: mongoose.Schema.Types.ObjectId,
