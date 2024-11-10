@@ -18,10 +18,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  // profileImage: {
-  //   type: Buffer,
-  //   required: true,
-  // },
+  profileImage: {
+    type: String,
+    required: true,
+  },
 
   // Not required
   firstName: {
@@ -61,10 +61,14 @@ const userSchema = new Schema({
 
 
 // Static signup method
-userSchema.statics.signup = async function (userName, password) {
+userSchema.statics.signup = async function (userName, password, profileImage) {
+  // Debugging logs
+  console.log("Received userName:", userName);
+  console.log("Received password:", password);
+  console.log("Received profileImage:", profileImage);
 
   // Validation
-  if (!userName || !password) {
+  if (!userName || !password || !profileImage) {
     throw Error('All fields must be filled');
   }
 

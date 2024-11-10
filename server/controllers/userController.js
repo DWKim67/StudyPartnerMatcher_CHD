@@ -5,22 +5,35 @@ const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.SECRET, { expiresIn: '3d' })
 }
 
-// Signup user
 const signupUser = async (req, res) => {
-  const { userName, password } = req.body
+  const { userName, password, profileImage } = req.body;
+  // const profileImage = req.files?.profileImage;  // Capture profile image from request
+
+  // Debugging logs
+  console.log("Received userName:", userName);
+  console.log("Received password:", password);
+  console.log("Received profileImage:", profileImage);
+
+  // Validation to ensure userName, password, and profileImage are provided
+  if (!userName || !password || !profileImage) {
+    return res.status(400).json({ error: 'All fields must be filled, including profileImage.' });
+  }
 
   try {
-    const user = await User.signup(userName, password);
+    // If profile image is provided, capture and store it as a Buffer
+    // const profileImageBuffer = profileImage.data; // Store image as a buffer
+    const user = await User.signup(userName, password, profileImage);
 
     // Create a token
     const token = createToken(user._id);
-
     res.status(200).json({ userName, token });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error(error); // Log the error
+    // res.status(400).json({ error: error.message });
+    res.status(400).json("ERROR in signupUser");
   }
+};
 
-}
 
 // Login user
 const loginUser = async (req, res) => {
@@ -35,6 +48,7 @@ const loginUser = async (req, res) => {
     // Send the response with user data and token
     res.status(200).json({
       userName: user.userName,
+      profileImage: user.profileImage,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
@@ -92,13 +106,21 @@ const removeUser = async (req, res) => {
 const updateUser = async (req, res) => {
   const { id } = req.params;
   const updates = req.body;  // Contains fields to update (e.g., firstName, lastName, etc.)
+  // const profileImage = req.files?.profileImage;  // Optional: Capture profile image if provided
 
   try {
-    const user = await User.findByIdAndUpdate(id, updates, { new: true }).populate('courses');
-
+    let user = await User.findById(id).populate('courses');
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
+    // Update user fields
+    user = await User.findByIdAndUpdate(id, updates, { new: true }).populate('courses');
+
+    // If profile image is provided, update it
+    // if (profileImage) {
+    //   user.profileImage = profileImage.data;  // Save binary data as Buffer
+    //   await user.save();
+    // }
 
     res.status(200).json(user);
   } catch (error) {

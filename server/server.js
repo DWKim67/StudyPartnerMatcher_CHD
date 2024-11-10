@@ -4,6 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const { OpenAI } = require('openai');
 const userRoutes = require('./routes/userRoute');
+const fileUpload = require('express-fileupload');
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(cors());
 // Middleware to parse JSON request bodies
 app.use(express.json());
 
+// app.use(fileUpload());
 
 // Connect to MongoDB using Mongoose
 mongoose.connect(process.env.MONGO_URI)
