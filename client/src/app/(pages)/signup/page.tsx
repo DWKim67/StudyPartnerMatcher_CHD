@@ -3,21 +3,22 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 
-
 const SignUpPage = () => {
   const router = useRouter();
-const navigateTo = (page: string) => {
-  router.push(`http://localhost:3000/${page}`);
-};
+  const navigateTo = (page: string) => {
+    router.push(`http://localhost:3000/${page}`);
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
         <h2 className="text-2xl font-bold text-center mb-4">Sign Up</h2>
-        
+
         {/* Username Input */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Preferred Name (Username)</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Preferred Name (Username)
+          </label>
           <input
             type="text"
             placeholder="Enter username"
@@ -28,7 +29,9 @@ const navigateTo = (page: string) => {
 
         {/* Password Input */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Password</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Password
+          </label>
           <input
             type="password"
             placeholder="Enter password"
@@ -37,13 +40,25 @@ const navigateTo = (page: string) => {
           />
         </div>
 
+        {/* Degree Input */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Degree
+          </label>
+          <input
+            type="text"
+            placeholder="Enter Degree"
+            required
+            className="w-full mt-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+          />
+        </div>
+
         {/* Profile Picture Input */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700">Profile Picture (Optional)</label>
-          <input
-            type="file"
-            className="w-full mt-1 text-sm text-gray-500"
-          />
+          <label className="block text-sm font-medium text-gray-700">
+            Profile Picture (Optional)
+          </label>
+          <input type="file" className="w-full mt-1 text-sm text-gray-500" />
         </div>
 
         {/* Submit Button */}
@@ -57,6 +72,6 @@ const navigateTo = (page: string) => {
       </div>
     </div>
   );
-}
+};
 
 export default SignUpPage;
