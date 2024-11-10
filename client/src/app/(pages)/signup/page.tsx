@@ -3,9 +3,9 @@
 
 export default function SignUpPage() {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-          <h2 className="text-2xl font-bold text-center mb-4">Sign Up</h2>
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 to-purple-100 p-8">
+        <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+          <h2 className="text-2xl font-bold text-center mb-6 text-blue-700">Sign Up</h2>
           
           {/* Username Input */}
           <div className="mb-4">
@@ -48,5 +48,4 @@ export default function SignUpPage() {
         </div>
       </div>
     );
-  }
-  
+}
