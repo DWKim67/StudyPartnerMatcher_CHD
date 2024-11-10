@@ -23,14 +23,14 @@ const signupUser = async (req, res) => {
     // If profile image is provided, capture and store it as a Buffer
     // const profileImageBuffer = profileImage.data; // Store image as a buffer
     const user = await User.signup(userName, password, profileImage);
-
+    // console.log("After sign up")
     // Create a token
     const token = createToken(user._id);
     res.status(200).json({ userName, token });
   } catch (error) {
     console.error(error); // Log the error
     // res.status(400).json({ error: error.message });
-    res.status(400).json("ERROR in signupUser");
+    res.status(400).json({error: error.message});
   }
 };
 
