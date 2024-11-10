@@ -17,11 +17,11 @@ const UserMatchingPage = () => {
   // Dummy data for the profile
   const user = {
     profilePic: "https://via.placeholder.com/150",
-    name: "John Doe",
-    compatibilityRate: 92,
+    name: "Alice Jackson",
+    compatibilityRate: 95,
     major: "Computer Science",
     description:
-      "Passionate about exploring complex algorithms and loves quiet study sessions. Looking for a study partner who enjoys deep dives into data structures and collaborates well on hands-on projects.",
+      "I prefer studying in a quiet, focused setting, so I get along best with introverted study partners. I don’t enjoy loud or distracting environments, and I value having a partner who can help keep us both on track without needing constant conversation. Mutual accountability is key for me, and I enjoy supporting each other to stay productive.",
     availableTimes: {
       Monday: "2-4 PM",
       Wednesday: "2-4 PM",
@@ -45,7 +45,10 @@ const UserMatchingPage = () => {
   };
 
   // Function to find overlapping times between two users
-  const getTimeOverlap = (times1: AvailableTimes, times2: AvailableTimes): string[] => {
+  const getTimeOverlap = (
+    times1: AvailableTimes,
+    times2: AvailableTimes
+  ): string[] => {
     const overlap: string[] = [];
     Object.keys(times1).forEach((day) => {
       if (times1[day] === times2[day]) {
@@ -73,7 +76,11 @@ const UserMatchingPage = () => {
 
   // Calculate compatibility color
   const compatibilityColor =
-    user.compatibilityRate >= 80 ? "text-green-600" : user.compatibilityRate >= 50 ? "text-yellow-600" : "text-red-600";
+    user.compatibilityRate >= 80
+      ? "text-green-600"
+      : user.compatibilityRate >= 50
+      ? "text-yellow-600"
+      : "text-red-600";
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-purple-100 p-8 flex justify-center">
@@ -94,7 +101,9 @@ const UserMatchingPage = () => {
         />
         {/* User Details */}
         <h1 className="text-4xl font-bold text-gray-800 mb-2">{user.name}</h1>
-        <p className="text-lg text-gray-600 mb-1 font-medium">Major: {user.major}</p>
+        <p className="text-lg text-gray-600 mb-1 font-medium">
+          Major: {user.major}
+        </p>
 
         {/* Compatibility Rate */}
         <p className={`text-2xl font-semibold mb-4 ${compatibilityColor}`}>
@@ -102,10 +111,14 @@ const UserMatchingPage = () => {
         </p>
 
         {/* Profile Description */}
-        <p className="text-center text-gray-700 px-8 mb-6 italic">{user.description}</p>
+        <p className="text-center text-gray-700 px-8 mb-6 italic">
+          {user.description}
+        </p>
 
         {/* Available Time Overlaps */}
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">Available Time Overlaps</h3>
+        <h3 className="text-xl font-semibold text-gray-800 mb-4">
+          Available Time Overlaps
+        </h3>
         <ul className="space-y-2">
           {timeOverlap.map((time, index) => (
             <li key={index} className="text-lg text-gray-700">
@@ -116,7 +129,9 @@ const UserMatchingPage = () => {
 
         {/* Chat Input */}
         <div className="mt-8 w-full bg-gray-50 p-4 rounded-lg shadow-md">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">Send a Message</h3>
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">
+            Send a Message
+          </h3>
           <input
             type="text"
             value={message}

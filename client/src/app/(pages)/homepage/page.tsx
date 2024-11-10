@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaBell } from "react-icons/fa";
 import NotificationMenu from "@/app/(components)/NotificationMenu";
+import Image from "next/image";
 
 const MainPage = () => {
   const router = useRouter();
@@ -16,8 +17,8 @@ const MainPage = () => {
 
   // Dummy user data for the logged-in user
   const user = {
-    profilePic: "https://via.placeholder.com/150",
-    name: "John Doe",
+    profilePic: "/golden-retriever-dog-breed-info.jpeg",
+    name: "Adam Johnson",
     major: "Computer Science",
     notifications: 5, // Number of unread notifications
   };
@@ -32,8 +33,10 @@ const MainPage = () => {
       <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-8 relative flex flex-col items-center space-y-8">
         {/* User Profile */}
         <div className="flex items-center space-x-4 mb-8">
-          <img
+          <Image
             src={user.profilePic}
+            width={64}
+            height={64}
             alt="Profile Picture"
             className="w-16 h-16 rounded-full border-4 border-gradient-to-r from-pink-500 to-indigo-500 shadow-lg"
           />
